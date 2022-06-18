@@ -4,10 +4,10 @@ This repository for test restapi about bookstore
 
 ## Project setup
 ```
-* please make .env file in your project.
+- please make .env file in your project.
 (you can see example file env in .env.example)
 
-* yarn install
+- yarn install
 
 ```
 
