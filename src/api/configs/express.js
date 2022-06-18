@@ -8,8 +8,8 @@ const error = require('../middlewares/error');
 const strategies = require('./passport');
 const routes = require('../routes');
 const bodyParser = require('body-parser');
-
-
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../../apidocs/swagger.json');
 /**
 * Express instance
 * @public
@@ -26,7 +26,7 @@ passport.use('jwt', strategies.jwt);
 // parse body params and attache them to req.body
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api', routes);
 // if error is not an instanceOf APIError, convert it.
 app.use(error.converter);

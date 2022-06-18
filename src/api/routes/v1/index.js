@@ -8,6 +8,6 @@ const bookRoute = require('./book/book');
  */
 
  router.use('/authen', authRoute);
- router.use('/user', userRoute);
+ router.use('/users', userRoute);
  router.use('/books', bookRoute);
  module.exports = router ;

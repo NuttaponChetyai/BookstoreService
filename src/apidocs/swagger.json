@@ -1,0 +1,224 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "bookstore-service"
+  },
+  "basePath": "/api/v1",
+  "schemes": ["http", "https"],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+
+  "paths": {
+    "/authen/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "api login",
+        "description": "api login",
+        "operationId": "",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/login"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal server error."
+          },
+          "200": {
+            "description": "Success."
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["User"],
+        "summary": "get user",
+        "description": "get user",
+        "operationId": "",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "500": {
+            "description": "Internal server error."
+          },
+          "200": {
+            "description": "Success."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        }
+      },
+      "post": {
+        "tags": ["User"],
+        "summary": "craete user",
+        "description": "craete user",
+        "operationId": "",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/createUser"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal server error."
+          },
+          "200": {
+            "description": "Success."
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["User"],
+        "summary": "delete user",
+        "description": "delete user",
+        "operationId": "",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "500": {
+            "description": "Internal server error."
+          },
+          "200": {
+            "description": "Success."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        }
+      }
+    },
+    "/users/orders": {
+      "post": {
+        "tags": ["User"],
+        "summary": "craete order",
+        "description": "craete order",
+        "operationId": "",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/createOrder"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal server error."
+          },
+          "200": {
+            "description": "Success."
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        }
+      }
+    },
+	 "/books":{
+		"get": {
+			"tags": ["Book"],
+			"summary": "get books",
+			"description": "get books",
+			"operationId": "",
+			"consumes": ["application/json"],
+			"produces": ["application/json"],
+			"responses": {
+			  "500": {
+				 "description": "Internal server error."
+			  },
+			  "200": {
+				 "description": "Success."
+			  },
+			  "401": {
+				 "description": "Unauthorized."
+			  }
+			}
+		 }
+	 }
+  },
+  "definitions": {
+    "login": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "required": true
+        },
+        "password": {
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+    "createUser": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "required": true
+        },
+        "password": {
+          "type": "string",
+          "required": true
+        },
+        "date_of_birth": {
+          "type": "string",
+          "required": false,
+          "default": "01/12/1992"
+        }
+      }
+    },
+	 "createOrder": {
+      "type": "object",
+      "properties": {
+        "orders": {
+          "type": "array",
+          "required": true,
+			 "default": [1,2]
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
