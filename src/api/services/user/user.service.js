@@ -43,23 +43,21 @@ exports.getUser = async (req, res) => {
 	let response;
 	try {
 		const { _id } = req.user;
-		const resultQuery = await orderModel.findOne({ user: _id }).populate('user');
-		if (resultQuery) {
+		const queryUser = await userModel.findOne({ _id: _id });
+		const queryOrder = await orderModel.findOne({ user: _id });
+		if (queryUser) {
 			let objResponse = {
-				username: resultQuery.user.username,
-				date_of_birth: dayjs(resultQuery.user.date_of_birth).format("DD/MM/YYYY"),
-				books: resultQuery.books
+				username: queryUser.username,
+				date_of_birth: dayjs(queryUser.date_of_birth).format("DD/MM/YYYY"),
+				books: queryOrder ? queryOrder.books : []
 			};
 			response = genarateResponse(httpStatus.OK, objResponse, RESPONSE.RESPONSE_DESCRIPTION.SUCCESS);
 		}
 		else {
 			response = genarateResponse(httpStatus.NOT_FOUND, undefined, RESPONSE.RESPONSE_DESCRIPTION.DATANOTFOUND);
 		}
-
 	}
-
 	catch (err) {
-		console.log(err)
 		response = genarateResponseError();
 	} finally {
 		return response;
@@ -80,7 +78,6 @@ exports.deleteUser = async (req, res) => {
 			response = genarateResponse(httpStatus.NOT_FOUND, undefined, RESPONSE.RESPONSE_DESCRIPTION.DATANOTFOUND);
 		}
 	}
-
 	catch (err) {
 		response = genarateResponseError();
 	} finally {
