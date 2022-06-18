@@ -8,19 +8,12 @@ const { env } = require('../configs/var')
  * @public
  */
 const handler = (err, req, res, next) => {
-
   const response = {
     responseData: {
       resultDescription: err.message || httpStatus[err.status],
-      resultData: err.errors,
-      developerMessage: err.stack
     },
     httpStatus: err.status
   };
-
-  if (env !== 'develop') {
-    delete response.developerMessage;
-  }
   res.status(response.httpStatus).send(response.responseData);
 
 };

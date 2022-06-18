@@ -11,7 +11,10 @@
     "develop": "nodemon --exec  babel-node ./src/index.js"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "body-parser": "^1.20.0",
+    "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-validation": "^4.1.0",
@@ -19,6 +22,7 @@
     "http-status": "^1.5.2",
     "jshint": "^2.13.4",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "method-override": "^3.0.0",
     "mongoose": "^6.3.8",
     "morgan": "^1.10.0",

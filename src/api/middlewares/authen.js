@@ -1,19 +1,9 @@
 const httpStatus = require('http-status');
 const passport = require('passport');
 const APIError = require('../utils/APIError');
-const scope = require('../models/scope');
-const _ = require('lodash');
-const { RESULT } = require('../utils/Result');
-const blackList = require('../models/blacklist_token');
-const authservice = require('../services/oauth/authservice');
-const handleJWT = (req, res, next, scopeName) => async (err, user, info) => {
+const userModel = require('../models/user.model');
+const handleJWT = (req, res, next) => async (err, user, info) => {
   const error = err || info;
-  // let apiError = new APIError({
-  //   message: error ? error.message : 'Unauthorized',
-  //   status: httpStatus.UNAUTHORIZED,
-  //   errors: error.name
-  // });
-
   if (error)
     error.message = (error.message === "No auth token") ? "Unauthorized" : error.message;
   try {
@@ -29,32 +19,17 @@ const handleJWT = (req, res, next, scopeName) => async (err, user, info) => {
       }
       throw apiError;
     }
-    let isLogout = await authservice.checkBlacklist(req.headers['authorization'].split(" ")[1]);
-    if (isLogout) {
+    const userData = await userModel.findOne({ username: user.username }).select({username : 1 , _id : 1}).lean();
+    if(userData) {
+      req.user = userData;
+    }else{
       let apiError = new APIError({
-        message: 'Token is logout.',
-        status: httpStatus.UNAUTHORIZED
+        message: error ? error.message : 'Unauthorized',
+        status: httpStatus.UNAUTHORIZED,
       });
       throw apiError;
     }
-    req.token_payload = user.payload
-    let data = await scope.findOne({ scopeName: scopeName }).populate('roleList');
-    if (data === null || data.roleList.length === 0) {
-      return next();
-    }
-    else if (data.roleList && data.roleList.length > 0) {
-      let roleName = data.roleList.map((r) => { return r.roleName; });
-      let listRole = _.intersectionWith(user.roles, roleName, _.isEqual);
-      if (listRole.length > 0) {
-        return next();
-      } else {
-        let apiError = new APIError({
-          message: 'Forbidden',
-          status: httpStatus.FORBIDDEN
-        });
-        throw apiError;
-      }
-    }
+
   } catch (e) {
     return next(e);
   }
@@ -62,10 +37,10 @@ const handleJWT = (req, res, next, scopeName) => async (err, user, info) => {
 };
 
 
-exports.authorize = (scopeName = '') => (req, res, next) => {
+exports.authorize = () => (req, res, next) => {
   passport.authenticate(
     'jwt', { session: false },
-    handleJWT(req, res, next, scopeName)
+    handleJWT(req, res, next)
   )(req, res, next);
 };
 

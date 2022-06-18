@@ -4,11 +4,9 @@ module.exports = {
 	port: process.env.PORT,
 	jwtSecret: process.env.JWT_SECRET,
 	jwtExpirationInterval: process.env.JWT_EXPIRATION_MINUTES,
-	refresh_token_expire: process.env.REFRESH_TOKEN_EXPIRATION_MINUTES,
 	mongoconnection: {
 	  uri: process.env.MONGO_CONNECTION,
 	},
-	
-
+	hash_key : process.env.HASH_KEY
  };
  

@@ -1,9 +1,8 @@
 const app = require('./api/configs/express');
-
-// const mongoose = require('./configs/mongoose');
+const mongoose = require('./api/configs/mongoose');
 
 // open mongoose connection
-// mongoose.connect();
+mongoose.connect();
 app.listen(process.env.PORT, () => console.log(`server started on port ${process.env.PORT} (${process.env.NODE_ENV})`));
 
 /**

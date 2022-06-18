@@ -9,7 +9,7 @@ const jwtOptions = {
 
 const jwt = async (payload, done) => {
 	try {
-		const userInformation = payload.sub.informations
+		const userInformation = payload.sub.informations;
 		if (userInformation) return done(null, userInformation);
 		return done(null, false);
 	} catch (error) {
