@@ -25,7 +25,6 @@ exports.handler = handler;
  * @public
  */
 exports.converter = (err, req, res, next) => {
-  console.log(err);
   let convertedError = err;
   if (err instanceof expressValidation.ValidationError) {
     convertedError = new APIError({

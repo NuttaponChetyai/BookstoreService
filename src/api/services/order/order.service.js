@@ -10,7 +10,6 @@ exports.createOrder = async (req, res) => {
 	try {
 		const listBook = await bookService.getBook(req, res);
 		const { orders } = req.body;
-		console.log(req.user);
 		if (listBook.response.resultData.length > 0) {
 			const searchBook = listBook.response.resultData.filter(x => orders.includes(x.id));
 			const totalPrice = searchBook.reduce((accumulator, current) => accumulator + current.price, 0);
@@ -29,7 +28,6 @@ exports.createOrder = async (req, res) => {
 		}
 	}
 	catch (err) {
-		console.log(err);
 		response = genarateResponseError();
 	} finally {
 		return response;

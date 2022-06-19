@@ -43,13 +43,19 @@ exports.getUser = async (req, res) => {
 	let response;
 	try {
 		const { _id } = req.user;
+		let listOrder = [];
 		const queryUser = await userModel.findOne({ _id: _id });
-		const queryOrder = await orderModel.findOne({ user: _id });
+		const queryOrder = await orderModel.find({ user: _id });
+		if(queryOrder.length > 0){
+			await Promise.all(queryOrder.map(data => {
+				listOrder = listOrder.concat(data.books);
+			}));
+		}
 		if (queryUser) {
 			let objResponse = {
 				username: queryUser.username,
 				date_of_birth: dayjs(queryUser.date_of_birth).format("DD/MM/YYYY"),
-				books: queryOrder ? queryOrder.books : []
+				books: listOrder
 			};
 			response = genarateResponse(httpStatus.OK, objResponse, RESPONSE.RESPONSE_DESCRIPTION.SUCCESS);
 		}
